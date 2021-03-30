@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
-from .serializer import UserSerializer
+from .serializer import UserSerializer, LoginSerializer
 from rest_framework.response import Response
 from rest_framework import status
 
-# Create your views here.
+
+from django.conf import settings
+from django.contrib import auth
+import jwt
+import logging
 
 
 class RegisterView(GenericAPIView):
@@ -19,9 +23,23 @@ class RegisterView(GenericAPIView):
 
 
 class LoginView(GenericAPIView):
-
+    #serializer_class = LoginSerializer
+    
     def post(self, request):
         data = request.data
         username = data.get('username', '')
         password = data.get('password', '')
-        pass
+        #logger = logging.getLogger('app_api') #from LOGGING.loggers in settings.py
+        user = auth.authenticate(username=username, password=password)
+        #logger.error(user)
+        if user:
+            auth_token = jwt.encode({'username': 'user.username'}, 'settings.JWT_SECRET_KEY')
+            serializer = UserSerializer(user)
+            data = {
+                'user': serializer.data,
+                'token': auth_token
+            }
+            return Response(data, status=status.HTTP_200_OK)
+        
+        return Response({'detail': 'invalid credenetials'}, status=status.HTTP_401_UNAUTHORIZED)
+        

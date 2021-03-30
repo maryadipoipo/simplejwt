@@ -41,6 +41,11 @@ INSTALLED_APPS = [
     'authentication'
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('authentication.backends.JWTAuthentication', )
+    
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -80,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'simplejwtdb',
         'USER': 'postgres',
-        'PASSWORD': os.environ.get('DB_PASS'),
+        'PASSWORD': 'kpiadi', #os.environ.get('DB_PASS'),
         'HOST': 'localhost',
         'PORT': '5432'
     }
@@ -125,3 +130,20 @@ JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'app_api': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+    # (...)
+}
