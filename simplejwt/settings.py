@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -124,7 +125,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+## INITIALIZE ENVIRONTMENT
+env = environ.Env()
+environ.Env.read_env()
+
 JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
+JWT_SECRET_KEY_ENVIRON = env('JWT_SECRET_KEY')
+JWT_TEMP_SECRET = '14*7^5;-0kle!dfert'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
