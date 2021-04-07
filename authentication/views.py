@@ -26,12 +26,16 @@ class LoginView(GenericAPIView):
     #serializer_class = LoginSerializer
     
     def post(self, request):
+        
+        logger = logging.getLogger(__name__)
         data = request.data
         username = data.get('username', '')
         password = data.get('password', '')
         #logger = logging.getLogger('app_api') #from LOGGING.loggers in settings.py
         user = auth.authenticate(username=username, password=password)
-        #logger.error(user)
+        logger.warning("isi USER")
+        logger.warning(user)
+        logger.error(user)
         if user:
             auth_token = jwt.encode({'username': 'user.username'}, 'settings.JWT_SECRET_KEY')
             serializer = UserSerializer(user)
