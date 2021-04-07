@@ -43,6 +43,7 @@ class LoginView(GenericAPIView):
                 'user': serializer.data,
                 'token': auth_token
             }
+            logger.warning(data)
             return Response(data, status=status.HTTP_200_OK)
         
         return Response({'detail': 'invalid credenetials'}, status=status.HTTP_401_UNAUTHORIZED)
