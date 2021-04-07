@@ -9,7 +9,6 @@ from django.conf import settings
 from django.contrib import auth
 import jwt
 import logging
-import environ
 
 
 class RegisterView(GenericAPIView):
@@ -27,8 +26,6 @@ class LoginView(GenericAPIView):
     #serializer_class = LoginSerializer
     
     def post(self, request):
-        env = environ.Env()
-        environ.Env.read_env()
         logger = logging.getLogger(__name__)
         data = request.data
         username = data.get('username', '')
